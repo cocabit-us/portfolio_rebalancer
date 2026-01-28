@@ -1,50 +1,80 @@
 <template>
-  <v-card class="mb-6" elevation="4">
-    <v-card-title>Groups</v-card-title>
+  <v-card class="mb-6" elevation="4" rounded>
+    <v-card-title>📊 Groups</v-card-title>
     <v-card-text>
-      <v-row dense>
-        <v-col cols="12" sm="6">
-          <v-text-field v-model="groupName" label="Group name" outlined dense />
+      <!-- Add new group -->
+      <v-row dense class="mb-3">
+        <v-col cols="12" sm="8">
+          <v-text-field v-model="groupName" label="Group Name" outlined dense />
         </v-col>
         <v-col cols="12" sm="4">
-          <v-text-field v-model.number="target" label="Target %" type="number" outlined dense />
-        </v-col>
-        <v-col cols="12" sm="2">
-          <v-btn color="primary" class="w-100" @click="addGroup">Add</v-btn>
+          <v-btn color="primary" block @click="addGroup">Add Group</v-btn>
         </v-col>
       </v-row>
 
-      <v-expansion-panels>
-        <v-expansion-panel v-for="(group, i) in store.groups" :key="i">
-          <v-expansion-panel-title>
-            {{ group.name }} — Target: {{ group.targets }}%
-          </v-expansion-panel-title>
-          <v-expansion-panel-text>
-            <v-checkbox
-              v-for="(inv, j) in store.investments"
-              :key="j"
-              v-model="group.investments"
-              :label="`${inv.name} ($${inv.value})`"
-              :value="inv.name"
-            />
-          </v-expansion-panel-text>
-        </v-expansion-panel>
-      </v-expansion-panels>
+      <!-- Groups table -->
+      <div style="overflow-x:auto;">
+        <v-data-table
+          :headers="headers"
+          :items="store.groups"
+          hide-default-footer
+          dense
+        >
+          <template #item.stocks="{ item: group }">
+            <div v-for="(stock, idx) in group.stocks" :key="idx" style="margin-bottom:8px;">
+              <v-row dense>
+                <v-col cols="12" sm="4">
+                  <v-select
+                    v-model="stock.selectedStock"
+                    :items="store.investments.map(i => i.name)"
+                    label="Stock"
+                    dense
+                    outlined
+                  />
+                </v-col>
+                <v-col cols="12" sm="2">
+                  <v-text-field
+                    v-model.number="stock.percent"
+                    type="number"
+                    label="%"
+                    dense
+                    outlined
+                  />
+                </v-col>
+                <v-col cols="12" sm="2">
+                  Current: {{ store.formatMoney(store.currentValue(stock.selectedStock)) }}
+                </v-col>
+                <v-col cols="12" sm="2">
+                  Target: {{ store.formatMoney(store.targetValue(stock, group)) }}
+                </v-col>
+                <v-col cols="12" sm="2">
+                  <span :style="{ color: store.buySell(stock, group) > 0 ? 'green' : 'red' }">
+                    {{ store.buySell(stock, group) > 0 ? '+' : '' }}{{ store.formatMoney(store.buySell(stock, group)) }}
+                  </span>
+                </v-col>
+              </v-row>
+            </div>
+            <v-btn small block color="secondary" @click="store.addStockToGroup(group)">+ Add Stock</v-btn>
+          </template>
+        </v-data-table>
+      </div>
     </v-card-text>
   </v-card>
 </template>
 
 <script setup>
 import { ref } from 'vue'
-import { useDataStore } from '@/store/dataStore'
-const store = useDataStore()
+import { usePortfolioStore } from '@/store/usePortfolioStore'
+
+const store = usePortfolioStore()
 const groupName = ref('')
-const target = ref(0)
 
 const addGroup = () => {
-  if (!groupName.value) return
-  store.groups.push({ name: groupName.value, targets: target.value, investments: [] })
+  store.addGroup(groupName.value)
   groupName.value = ''
-  target.value = 0
 }
+
+const headers = [
+  { text: 'Stocks', value: 'stocks' },
+]
 </script>
