@@ -1,52 +1,56 @@
 <template>
-  <v-card class="mb-6" elevation="4">
-    <v-card-title>Investments</v-card-title>
+  <v-card class="mb-6" elevation="4" rounded>
+    <v-card-title>💰 Investments</v-card-title>
     <v-card-text>
+      <!-- Add new investment -->
       <v-row dense>
         <v-col cols="12" sm="5">
-          <v-text-field v-model="name" label="Stock name" outlined dense />
+          <v-text-field v-model="name" label="Stock Name" outlined dense />
         </v-col>
         <v-col cols="12" sm="5">
           <v-text-field v-model.number="value" label="Value ($)" type="number" outlined dense />
         </v-col>
         <v-col cols="12" sm="2">
-          <v-btn color="primary" class="w-100" @click="add">Add</v-btn>
+          <v-btn color="primary" block @click="add">Add</v-btn>
         </v-col>
       </v-row>
 
-      <v-table>
-        <thead>
-          <tr>
-            <th>Stock</th>
-            <th>Value ($)</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(inv, i) in store.investments" :key="i">
-            <td>
-              <v-text-field v-model="inv.name" variant="plain" hide-details />
-            </td>
-            <td>
-              <v-text-field v-model.number="inv.value" type="number" variant="plain" hide-details />
-            </td>
-          </tr>
-        </tbody>
-      </v-table>
+      <!-- Investment table -->
+      <div style="overflow-x:auto; margin-top:12px;">
+        <v-data-table
+          :headers="headers"
+          :items="store.investments"
+          hide-default-footer
+          dense
+        >
+          <template #item.name="{ item }">
+            <v-text-field v-model="item.name" variant="outlined" dense hide-details />
+          </template>
+          <template #item.value="{ item }">
+            <v-text-field v-model.number="item.value" type="number" variant="outlined" dense hide-details />
+          </template>
+        </v-data-table>
+      </div>
     </v-card-text>
   </v-card>
 </template>
 
 <script setup>
 import { ref } from 'vue'
-import { useDataStore } from '@/store/dataStore'
-const store = useDataStore()
+import { usePortfolioStore } from '@/store/usePortfolioStore'
+
+const store = usePortfolioStore()
 const name = ref('')
 const value = ref(0)
 
 const add = () => {
-  if (!name.value) return
   store.addInvestment(name.value, value.value)
   name.value = ''
   value.value = 0
 }
+
+const headers = [
+  { text: 'Stock', value: 'name' },
+  { text: 'Value ($)', value: 'value' },
+]
 </script>
