@@ -1,56 +1,50 @@
 <template>
-  <div class="card">
-    <h2>Groups</h2>
-    <div class="input-row">
-      <input v-model="groupName" placeholder="Group name" />
-      <input v-model.number="target" type="number" placeholder="Target %" />
-      <button @click="addGroup">Add</button>
-    </div>
+  <v-card class="mb-6" elevation="4">
+    <v-card-title>Groups</v-card-title>
+    <v-card-text>
+      <v-row dense>
+        <v-col cols="12" sm="6">
+          <v-text-field v-model="groupName" label="Group name" outlined dense />
+        </v-col>
+        <v-col cols="12" sm="4">
+          <v-text-field v-model.number="target" label="Target %" type="number" outlined dense />
+        </v-col>
+        <v-col cols="12" sm="2">
+          <v-btn color="primary" class="w-100" @click="addGroup">Add</v-btn>
+        </v-col>
+      </v-row>
 
-    <div v-for="(group, i) in store.groups" :key="i" class="group-block">
-      <h3>{{ group.name }} (Target: {{ group.targets }}%)</h3>
-      <p>Assigned Investments:</p>
-      <ul>
-        <li v-for="(inv, j) in store.investments" :key="j">
-          <label>
-            <input type="checkbox" v-model="group.investments" :value="inv.name" />
-            {{ inv.name }} ({{ inv.value | currency }})
-          </label>
-        </li>
-      </ul>
-    </div>
-  </div>
+      <v-expansion-panels>
+        <v-expansion-panel v-for="(group, i) in store.groups" :key="i">
+          <v-expansion-panel-title>
+            {{ group.name }} — Target: {{ group.targets }}%
+          </v-expansion-panel-title>
+          <v-expansion-panel-text>
+            <v-checkbox
+              v-for="(inv, j) in store.investments"
+              :key="j"
+              v-model="group.investments"
+              :label="`${inv.name} ($${inv.value})`"
+              :value="inv.name"
+            />
+          </v-expansion-panel-text>
+        </v-expansion-panel>
+      </v-expansion-panels>
+    </v-card-text>
+  </v-card>
 </template>
 
 <script setup>
 import { ref } from 'vue'
-import { useDataStore } from '@/store/DataStore'
+import { useDataStore } from '@/store/dataStore'
 const store = useDataStore()
 const groupName = ref('')
 const target = ref(0)
 
 const addGroup = () => {
   if (!groupName.value) return
-  store.groups.push({
-    name: groupName.value,
-    targets: target.value,
-    investments: []
-  })
+  store.groups.push({ name: groupName.value, targets: target.value, investments: [] })
   groupName.value = ''
   target.value = 0
 }
 </script>
-
-<script>
-export default {
-  filters: {
-    currency(val) {
-      return `$${parseFloat(val).toLocaleString()}`
-    }
-  }
-}
-</script>
-
-<style scoped>
-.group-block { border-top: 1px solid #ddd; padding-top: 0.5rem; margin-top: 0.5rem; }
-</style>

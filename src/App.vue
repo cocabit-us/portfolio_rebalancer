@@ -1,9 +1,20 @@
 <template>
-  <main class="container">
-    <h1>Portfolio Rebalancing Tool</h1>
-    <InvestmentList />
-    <GroupList />
-  </main>
+  <v-app>
+    <v-app-bar app color="primary" dark>
+      <v-app-bar-title>Portfolio Rebalancing Tool</v-app-bar-title>
+    </v-app-bar>
+
+    <v-main>
+      <v-container class="py-6">
+        <InvestmentList />
+        <GroupList />
+      </v-container>
+    </v-main>
+
+    <v-footer color="grey-lighten-4" app>
+      <v-col class="text-center">© {{ new Date().getFullYear() }} Portfolio Tools</v-col>
+    </v-footer>
+  </v-app>
 </template>
 
 <script setup>
@@ -13,17 +24,7 @@ import GroupList from './components/GroupList.vue'
 
 <style>
 body {
-  font-family: system-ui, sans-serif;
-  background: #f5f7fa;
-  margin: 0;
-}
-.container {
-  max-width: 800px;
-  margin: auto;
-  padding: 1rem;
-}
-h1 {
-  text-align: center;
-  margin-bottom: 1rem;
+  background-color: #f5f5f5;
+  font-family: Roboto, system-ui, sans-serif;
 }
 </style>
