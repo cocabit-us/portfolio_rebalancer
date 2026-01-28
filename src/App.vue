@@ -5,9 +5,11 @@
     </v-app-bar>
 
     <v-main>
-      <v-container class="py-6">
-        <InvestmentList />
-        <GroupList />
+      <v-container class="py-6" fluid>
+        <div style="max-width: 600px; margin: 0 auto;">
+          <InvestmentList />
+          <GroupList />
+        </div>
       </v-container>
     </v-main>
 
