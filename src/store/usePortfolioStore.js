@@ -18,6 +18,9 @@ export const usePortfolioStore = defineStore('portfolio', () => {
     if (!grp.id) {
       grp.id = crypto.randomUUID()
     }
+    if (grp.targetPercent === undefined) {
+      grp.targetPercent = 0
+    }
   })
 
   // Add investment
@@ -34,7 +37,7 @@ export const usePortfolioStore = defineStore('portfolio', () => {
   // Add group
   const addGroup = (name) => {
     if (!name) return
-    groups.value.push({ id: crypto.randomUUID(), name, stocks: [] })
+    groups.value.push({ id: crypto.randomUUID(), name, stocks: [], targetPercent: 0 })
   }
 
   // Delete group
@@ -48,15 +51,22 @@ export const usePortfolioStore = defineStore('portfolio', () => {
   }
 
   // Calculations
+  const totalPortfolioValue = computed(() => {
+    return investments.value.reduce((sum, inv) => sum + inv.value, 0)
+  })
+
   const currentValue = (stockName) => {
     const inv = investments.value.find(i => i.name === stockName)
     return inv ? inv.value : 0
   }
 
+  const groupTargetValue = (group) => {
+    return (totalPortfolioValue.value * (group.targetPercent || 0)) / 100
+  }
+
   const targetValue = (stock, group) => {
     if (!stock.selectedStock) return 0
-    const total = group.stocks.reduce((sum, s) => sum + currentValue(s.selectedStock), 0)
-    return (total * stock.percent) / 100
+    return (groupTargetValue(group) * (stock.percent || 0)) / 100
   }
 
   const buySell = (stock, group) => targetValue(stock, group) - currentValue(stock.selectedStock)
@@ -78,6 +88,7 @@ export const usePortfolioStore = defineStore('portfolio', () => {
     deleteGroup,
     addStockToGroup,
     currentValue,
+    groupTargetValue,
     targetValue,
     buySell,
     formatMoney
