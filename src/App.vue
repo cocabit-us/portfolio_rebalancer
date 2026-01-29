@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-app-bar app color="primary" dark>
-      <v-app-bar-title>Portfolio Rebalancing Tool</v-app-bar-title>
+      <v-app-bar-title>Portfolio Rebalancing</v-app-bar-title>
     </v-app-bar>
 
     <v-main>
