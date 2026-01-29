@@ -32,6 +32,12 @@
                                 hide-details style="font-size: 14px; text-align: right;" />
                         </div>
                     </template>
+
+                    <template #item.actions="{ item }">
+                        <v-btn icon flat size="small" @click="deleteInvestment(item)">
+                            <v-icon>mdi-delete</v-icon>
+                        </v-btn>
+                    </template>
                 </v-data-table>
             </div>
         </v-card-text>
@@ -39,7 +45,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, nextTick } from 'vue'
 import { usePortfolioStore } from '@/store/usePortfolioStore'
 
 const store = usePortfolioStore()
@@ -50,10 +56,18 @@ const add = () => {
     store.addInvestment(name.value, value.value)
     name.value = ''
     value.value = 0
+    nextTick(() => {
+        // Optional: Scroll to the new item if needed
+    })
+}
+
+const deleteInvestment = (investment) => {
+    store.deleteInvestment(investment.id) // Assuming each investment has a unique 'id'
 }
 
 const headers = [
-    { title: 'Stock', key: 'name', width: '50%' },
-    { title: 'Value ($)', key: 'value', width: '50%' },
+    { title: 'Stock', key: 'name', width: '45%' },
+    { title: 'Value ($)', key: 'value', width: '45%' },
+    { title: 'Actions', key: 'actions', width: '10%', sortable: false },
 ]
 </script>

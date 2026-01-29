@@ -5,10 +5,23 @@ export const usePortfolioStore = defineStore('portfolio', () => {
   const investments = ref(JSON.parse(localStorage.getItem('investments') || '[]'))
   const groups = ref(JSON.parse(localStorage.getItem('groups') || '[]'))
 
+  // Ensure all investments have a unique ID for deletion.
+  // This handles legacy data from localStorage that might not have an ID.
+  investments.value.forEach(inv => {
+    if (!inv.id) {
+      inv.id = crypto.randomUUID()
+    }
+  })
+
   // Add investment
   const addInvestment = (name, value) => {
     if (!name || value <= 0) return
-    investments.value.push({ name, value: parseFloat(value) })
+    investments.value.push({ id: crypto.randomUUID(), name, value: parseFloat(value) })
+  }
+
+  // Delete investment
+  const deleteInvestment = (id) => {
+    investments.value = investments.value.filter(inv => inv.id !== id)
   }
 
   // Add group
@@ -48,6 +61,7 @@ export const usePortfolioStore = defineStore('portfolio', () => {
     investments,
     groups,
     addInvestment,
+    deleteInvestment,
     addGroup,
     addStockToGroup,
     currentValue,
