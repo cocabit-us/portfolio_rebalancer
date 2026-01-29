@@ -13,6 +13,13 @@ export const usePortfolioStore = defineStore('portfolio', () => {
     }
   })
 
+  // Ensure all groups have a unique ID for deletion.
+  groups.value.forEach(grp => {
+    if (!grp.id) {
+      grp.id = crypto.randomUUID()
+    }
+  })
+
   // Add investment
   const addInvestment = (name, value) => {
     if (!name || value <= 0) return
@@ -27,7 +34,12 @@ export const usePortfolioStore = defineStore('portfolio', () => {
   // Add group
   const addGroup = (name) => {
     if (!name) return
-    groups.value.push({ name, stocks: [] })
+    groups.value.push({ id: crypto.randomUUID(), name, stocks: [] })
+  }
+
+  // Delete group
+  const deleteGroup = (id) => {
+    groups.value = groups.value.filter(g => g.id !== id)
   }
 
   // Add stock to group
@@ -63,6 +75,7 @@ export const usePortfolioStore = defineStore('portfolio', () => {
     addInvestment,
     deleteInvestment,
     addGroup,
+    deleteGroup,
     addStockToGroup,
     currentValue,
     targetValue,
