@@ -4,11 +4,12 @@
         <v-card-text>
             <!-- Add new group -->
             <v-row dense class="mb-3">
-                <v-col cols="12" sm="8">
-                    <v-text-field v-model="groupName" label="Group Name" outlined dense />
+                <v-col cols="8">
+                    <v-text-field v-model="groupName" label="Group Name" variant="outlined" density="compact"
+                        hide-details />
                 </v-col>
-                <v-col cols="12" sm="4">
-                    <v-btn color="primary" block @click="addGroup">Add Group</v-btn>
+                <v-col cols="4">
+                    <v-btn color="primary" block @click="addGroup">Add</v-btn>
                 </v-col>
             </v-row>
 
