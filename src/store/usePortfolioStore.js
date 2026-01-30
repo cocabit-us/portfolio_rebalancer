@@ -50,6 +50,11 @@ export const usePortfolioStore = defineStore('portfolio', () => {
     group.stocks.push({ selectedStock: stockName, percent })
   }
 
+  // Remove stock from group
+  const removeStockFromGroup = (group, index) => {
+    group.stocks.splice(index, 1)
+  }
+
   // Calculations
   const totalPortfolioValue = computed(() => {
     return investments.value.reduce((sum, inv) => sum + inv.value, 0)
@@ -87,6 +92,7 @@ export const usePortfolioStore = defineStore('portfolio', () => {
     addGroup,
     deleteGroup,
     addStockToGroup,
+    removeStockFromGroup,
     currentValue,
     groupTargetValue,
     targetValue,

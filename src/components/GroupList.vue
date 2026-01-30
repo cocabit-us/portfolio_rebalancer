@@ -34,8 +34,14 @@
                                     <v-select v-model="stock.selectedStock" :items="store.investments.map(i => i.name)"
                                         label="Stock" density="compact" variant="outlined" hide-details />
                                 </v-col>
-                                <v-col cols="6" class="text-right">
+                                <v-col cols="4" class="text-right">
                                     {{ store.formatMoney(store.currentValue(stock.selectedStock)) }}
+                                </v-col>
+                                <v-col cols="2" class="text-center px-0">
+                                    <v-btn icon flat size="small" density="compact"
+                                        @click="store.removeStockFromGroup(group, idx)">
+                                        <v-icon size="small">mdi-close</v-icon>
+                                    </v-btn>
                                 </v-col>
                             </v-row>
                         </div>
