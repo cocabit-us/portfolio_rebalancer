@@ -13,7 +13,7 @@
       </v-container>
     </v-main>
 
-    <v-footer color="grey-lighten-4" app height="40">
+    <v-footer color="grey-lighten-4" app height="20">
       <div class="text-center w-100 text-caption">© {{ new Date().getFullYear() }} Cocabit</div>
     </v-footer>
   </v-app>
