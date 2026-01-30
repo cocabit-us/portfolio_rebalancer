@@ -14,7 +14,7 @@
     </v-main>
 
     <v-footer color="grey-lighten-4" app>
-      <v-col class="text-center">© {{ new Date().getFullYear() }} Portfolio Tools</v-col>
+      <v-col class="text-center">© {{ new Date().getFullYear() }} Cocabit</v-col>
     </v-footer>
   </v-app>
 </template>
