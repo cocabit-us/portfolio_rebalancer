@@ -21,8 +21,8 @@
 
             <!-- Investment table -->
             <div style="overflow-x:auto; margin-top:12px;">
-                <v-data-table :headers="headers" :items="store.investments" hide-default-footer density="compact"
-                    :mobile-breakpoint="0">
+                <v-data-table :headers="headers" :items="store.investments" :items-per-page="-1" hide-default-footer
+                    density="compact" :mobile-breakpoint="0">
                     <template #item.name="{ item }">
                         <div style="min-width: 120px; width: 100%;">
                             <v-text-field v-model="item.name" variant="outlined" density="compact" hide-details
