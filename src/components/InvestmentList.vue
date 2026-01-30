@@ -1,6 +1,9 @@
 <template>
     <v-card class="mb-6" elevation="4" rounded>
-        <v-card-title>💰 Investments</v-card-title>
+        <v-card-title class="d-flex justify-space-between align-center">
+            <span>💰 Investments</span>
+            <span style="font-size: 1rem;">Total: {{ store.formatMoney(store.totalPortfolioValue) }}</span>
+        </v-card-title>
         <v-card-text>
             <!-- Add new investment -->
             <v-row dense>

@@ -109,6 +109,7 @@ export const usePortfolioStore = defineStore('portfolio', () => {
     addStockToGroup,
     removeStockFromGroup,
     currentValue,
+    totalPortfolioValue,
     totalTargetPercent,
     groupTargetValue,
     groupCurrentValue,
