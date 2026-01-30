@@ -16,36 +16,26 @@
             <div style="overflow-x:auto;">
                 <v-data-table :headers="headers" :items="store.groups" hide-default-footer density="compact">
                     <template #item.stocks="{ item: group }">
-                        <div class="d-flex justify-space-between align-center mb-3">
-                            <div style="font-weight: bold; font-size: 1.1em; min-width: 150px;">{{ group.name }}</div>
-                            <div class="d-flex align-center">
-                                <div style="width: 120px;" class="mr-2">
-                                    <v-text-field v-model.number="group.targetPercent" label="Group Target"
-                                        type="number" suffix="%" density="compact" hide-details variant="outlined" />
+                        <div class="d-flex flex-wrap justify-space-between align-center mb-3">
+                            <div style="font-weight: bold; font-size: 1.1em;" class="mr-2">{{ group.name }}</div>
+                            <div class="d-flex align-center my-1">
+                                <div style="width: 100px;" class="mr-2">
+                                    <v-text-field v-model.number="group.targetPercent" label="Target" type="number"
+                                        suffix="%" density="compact" hide-details variant="outlined" />
                                 </div>
-                                <div style="font-weight: bold; min-width: 150px; text-align: right;">
+                                <div style="font-weight: bold; white-space: nowrap;">
                                     Target: {{ store.formatMoney(store.groupTargetValue(group)) }}
                                 </div>
                             </div>
                         </div>
                         <div v-for="(stock, idx) in group.stocks" :key="idx" style="margin-bottom:8px;">
-                            <v-row dense>
-                                <v-col cols="12" sm="4">
+                            <v-row dense align="center">
+                                <v-col cols="6">
                                     <v-select v-model="stock.selectedStock" :items="store.investments.map(i => i.name)"
-                                        label="Stock" dense outlined />
+                                        label="Stock" density="compact" variant="outlined" hide-details />
                                 </v-col>
-                                <v-col cols="12" sm="2">
-                                    <v-text-field v-model.number="stock.percent" type="number" label="%" dense
-                                        outlined />
-                                </v-col>
-                                <v-col cols="12" sm="3">
-                                    Current: {{ store.formatMoney(store.currentValue(stock.selectedStock)) }}
-                                </v-col>
-                                <v-col cols="12" sm="3">
-                                    <span :style="{ color: store.buySell(stock, group) > 0 ? 'green' : 'red' }">
-                                        {{ store.buySell(stock, group) > 0 ? '+' : '' }}{{
-                                            store.formatMoney(store.buySell(stock, group)) }}
-                                    </span>
+                                <v-col cols="6" class="text-right">
+                                    {{ store.formatMoney(store.currentValue(stock.selectedStock)) }}
                                 </v-col>
                             </v-row>
                         </div>
