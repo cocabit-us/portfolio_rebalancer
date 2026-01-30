@@ -1,21 +1,21 @@
 <template>
     <v-card class="mb-6" elevation="4" rounded>
         <v-card-title class="d-flex justify-space-between align-center">
-            <span>💰 Investments</span>
-            <span style="font-size: 1rem;">Total: {{ store.formatMoney(store.totalPortfolioValue) }}</span>
+            <span>{{ $t('investments') }}</span>
+            <span style="font-size: 1rem;">{{ $t('total') }}: {{ store.formatMoney(store.totalPortfolioValue) }}</span>
         </v-card-title>
         <v-card-text>
             <!-- Add new investment -->
             <v-row dense>
                 <v-col cols="5">
-                    <v-text-field v-model="name" label="Stock Name" variant="outlined" density="compact" />
+                    <v-text-field v-model="name" :label="$t('stockName')" variant="outlined" density="compact" />
                 </v-col>
                 <v-col cols="5">
-                    <v-text-field v-model.number="value" label="Value ($)" type="number" variant="outlined"
+                    <v-text-field v-model.number="value" :label="$t('value')" type="number" variant="outlined"
                         density="compact" />
                 </v-col>
                 <v-col cols="2">
-                    <v-btn color="primary" block @click="add">Add</v-btn>
+                    <v-btn color="primary" block @click="add">{{ $t('add') }}</v-btn>
                 </v-col>
             </v-row>
 
@@ -49,10 +49,12 @@
 </template>
 
 <script setup>
-import { ref, nextTick } from 'vue'
+import { ref, nextTick, computed } from 'vue'
 import { usePortfolioStore } from '@/store/usePortfolioStore'
+import { useI18n } from 'vue-i18n'
 
 const store = usePortfolioStore()
+const { t } = useI18n()
 const name = ref('')
 const value = ref(0)
 
@@ -69,9 +71,9 @@ const deleteInvestment = (investment) => {
     store.deleteInvestment(investment.id) // Assuming each investment has a unique 'id'
 }
 
-const headers = [
-    { title: 'Stock', key: 'name', width: '45%' },
-    { title: 'Value ($)', key: 'value', width: '45%' },
-    { title: 'Actions', key: 'actions', width: '10%', sortable: false },
-]
+const headers = computed(() => [
+    { title: t('stockName'), key: 'name', width: '45%' },
+    { title: t('value'), key: 'value', width: '45%' },
+    { title: t('actions'), key: 'actions', width: '10%', sortable: false },
+])
 </script>

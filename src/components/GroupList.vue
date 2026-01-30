@@ -1,20 +1,20 @@
 <template>
     <v-card class="mb-6" elevation="4" rounded>
         <v-card-title class="d-flex justify-space-between align-center">
-            <span>📊 Groups</span>
+            <span>{{ $t('groups') }}</span>
             <span :style="{ color: store.totalTargetPercent === 100 ? 'green' : 'red', fontSize: '1rem' }">
-                Total: {{ store.totalTargetPercent }}%
+                {{ $t('total') }}: {{ store.totalTargetPercent }}%
             </span>
         </v-card-title>
         <v-card-text>
             <!-- Add new group -->
             <v-row dense class="mb-3">
                 <v-col cols="8">
-                    <v-text-field v-model="groupName" label="Group Name" variant="outlined" density="compact"
+                    <v-text-field v-model="groupName" :label="$t('groupName')" variant="outlined" density="compact"
                         hide-details />
                 </v-col>
                 <v-col cols="4">
-                    <v-btn color="primary" block @click="addGroup">Add</v-btn>
+                    <v-btn color="primary" block @click="addGroup">{{ $t('add') }}</v-btn>
                 </v-col>
             </v-row>
 
@@ -32,15 +32,15 @@
                             </div>
                             <div class="d-flex align-center my-1">
                                 <div style="width: 100px;" class="mr-2">
-                                    <v-text-field v-model.number="group.targetPercent" label="Target" type="number"
-                                        suffix="%" density="compact" hide-details variant="outlined" />
+                                    <v-text-field v-model.number="group.targetPercent" :label="$t('target')"
+                                        type="number" suffix="%" density="compact" hide-details variant="outlined" />
                                 </div>
                                 <div style="font-weight: bold; white-space: nowrap;" class="mr-3">
-                                    Target: {{ store.formatMoney(store.groupTargetValue(group)) }}
+                                    {{ $t('target') }}: {{ store.formatMoney(store.groupTargetValue(group)) }}
                                 </div>
                                 <div style="font-weight: bold; white-space: nowrap;"
                                     :style="{ color: store.groupBuySell(group) >= 0 ? 'green' : 'red' }">
-                                    {{ store.groupBuySell(group) >= 0 ? 'Buy' : 'Sell' }}: {{
+                                    {{ store.groupBuySell(group) >= 0 ? $t('buy') : $t('sell') }}: {{
                                         store.formatMoney(Math.abs(store.groupBuySell(group))) }}
                                 </div>
                             </div>
@@ -51,7 +51,7 @@
                                     <v-col cols="6">
                                         <v-select v-model="stock.selectedStock"
                                             :items="availableStocks(stock.selectedStock)" item-title="name"
-                                            item-value="id" label="Stock" density="compact" variant="outlined"
+                                            item-value="id" :label="$t('stock')" density="compact" variant="outlined"
                                             hide-details />
                                     </v-col>
                                     <v-col cols="4" class="text-right">
@@ -67,10 +67,10 @@
                             </div>
                             <div class="d-flex align-center mt-2">
                                 <v-btn size="small" color="secondary" class="mr-2"
-                                    @click="store.addStockToGroup(group)">+
-                                    Add Stock</v-btn>
+                                    @click="store.addStockToGroup(group)">
+                                    {{ $t('addStock') }}</v-btn>
                                 <v-btn size="small" color="error" variant="text" @click="deleteGroup(group)">
-                                    Delete Group
+                                    {{ $t('deleteGroup') }}
                                 </v-btn>
                             </div>
                         </div>
