@@ -13,8 +13,8 @@
       </v-container>
     </v-main>
 
-    <v-footer color="grey-lighten-4" app>
-      <v-col class="text-center">© {{ new Date().getFullYear() }} Cocabit</v-col>
+    <v-footer color="grey-lighten-4" app height="40">
+      <div class="text-center w-100 text-caption">© {{ new Date().getFullYear() }} Cocabit</div>
     </v-footer>
   </v-app>
 </template>
