@@ -11,8 +11,10 @@
                     <v-text-field v-model="name" :label="$t('stockName')" variant="outlined" density="compact" />
                 </v-col>
                 <v-col cols="5">
-                    <v-text-field v-model.number="value" :label="$t('value')" type="number" variant="outlined"
-                        density="compact" />
+                    <v-text-field :model-value="focusedFields['new'] ? value : formatValue(value)"
+                        @update:model-value="val => value = parseFloat(val.replace(/,/g, '')) || 0"
+                        @focus="focusedFields['new'] = true" @blur="focusedFields['new'] = false" :label="$t('value')"
+                        type="text" variant="outlined" density="compact" />
                 </v-col>
                 <v-col cols="2">
                     <v-btn color="primary" block @click="add">{{ $t('add') }}</v-btn>
@@ -32,8 +34,11 @@
 
                     <template #item.value="{ item }">
                         <div style="min-width: 90px; max-width: 120px; width: 100%;">
-                            <v-text-field v-model.number="item.value" type="number" variant="outlined" density="compact"
-                                hide-details style="font-size: 14px; text-align: right;" />
+                            <v-text-field :model-value="focusedFields[item.id] ? item.value : formatValue(item.value)"
+                                @update:model-value="val => item.value = parseFloat(val.replace(/,/g, '')) || 0"
+                                @focus="focusedFields[item.id] = true" @blur="focusedFields[item.id] = false"
+                                type="text" variant="outlined" density="compact" hide-details
+                                style="font-size: 14px; text-align: right;" />
                         </div>
                     </template>
 
@@ -56,12 +61,18 @@ import { useI18n } from 'vue-i18n'
 const store = usePortfolioStore()
 const { t } = useI18n()
 const name = ref('')
-const value = ref(0)
+const value = ref('')
+const focusedFields = ref({})
+
+const formatValue = (val) => {
+    if (val === null || val === undefined || val === '') return ''
+    return Number(val).toLocaleString('en-US')
+}
 
 const add = () => {
     store.addInvestment(name.value, value.value)
     name.value = ''
-    value.value = 0
+    value.value = ''
     nextTick(() => {
         // Optional: Scroll to the new item if needed
     })
