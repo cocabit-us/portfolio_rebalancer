@@ -17,7 +17,13 @@
                 <v-data-table :headers="headers" :items="store.groups" hide-default-footer density="compact">
                     <template #item.stocks="{ item: group }">
                         <div class="d-flex flex-wrap justify-space-between align-center mb-3">
-                            <div style="font-weight: bold; font-size: 1.1em;" class="mr-2">{{ group.name }}</div>
+                            <div class="d-flex align-center">
+                                <v-btn icon variant="text" size="small" density="compact" class="mr-1"
+                                    @click="toggleExpand(group.id)">
+                                    <v-icon>{{ isExpanded(group.id) ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+                                </v-btn>
+                                <div style="font-weight: bold; font-size: 1.1em;" class="mr-2">{{ group.name }}</div>
+                            </div>
                             <div class="d-flex align-center my-1">
                                 <div style="width: 100px;" class="mr-2">
                                     <v-text-field v-model.number="group.targetPercent" label="Target" type="number"
@@ -28,29 +34,33 @@
                                 </div>
                             </div>
                         </div>
-                        <div v-for="(stock, idx) in group.stocks" :key="idx" style="margin-bottom:8px;">
-                            <v-row dense align="center">
-                                <v-col cols="6">
-                                    <v-select v-model="stock.selectedStock" :items="store.investments.map(i => i.name)"
-                                        label="Stock" density="compact" variant="outlined" hide-details />
-                                </v-col>
-                                <v-col cols="4" class="text-right">
-                                    {{ store.formatMoney(store.currentValue(stock.selectedStock)) }}
-                                </v-col>
-                                <v-col cols="2" class="text-center px-0">
-                                    <v-btn icon flat size="small" density="compact"
-                                        @click="store.removeStockFromGroup(group, idx)">
-                                        <v-icon size="small">mdi-close</v-icon>
-                                    </v-btn>
-                                </v-col>
-                            </v-row>
-                        </div>
-                        <div class="d-flex align-center mt-2">
-                            <v-btn size="small" color="secondary" class="mr-2" @click="store.addStockToGroup(group)">+
-                                Add Stock</v-btn>
-                            <v-btn size="small" color="error" variant="text" @click="deleteGroup(group)">
-                                Delete Group
-                            </v-btn>
+                        <div v-show="isExpanded(group.id)">
+                            <div v-for="(stock, idx) in group.stocks" :key="idx" style="margin-bottom:8px;">
+                                <v-row dense align="center">
+                                    <v-col cols="6">
+                                        <v-select v-model="stock.selectedStock"
+                                            :items="store.investments.map(i => i.name)" label="Stock" density="compact"
+                                            variant="outlined" hide-details />
+                                    </v-col>
+                                    <v-col cols="4" class="text-right">
+                                        {{ store.formatMoney(store.currentValue(stock.selectedStock)) }}
+                                    </v-col>
+                                    <v-col cols="2" class="text-center px-0">
+                                        <v-btn icon flat size="small" density="compact"
+                                            @click="store.removeStockFromGroup(group, idx)">
+                                            <v-icon size="small">mdi-close</v-icon>
+                                        </v-btn>
+                                    </v-col>
+                                </v-row>
+                            </div>
+                            <div class="d-flex align-center mt-2">
+                                <v-btn size="small" color="secondary" class="mr-2"
+                                    @click="store.addStockToGroup(group)">+
+                                    Add Stock</v-btn>
+                                <v-btn size="small" color="error" variant="text" @click="deleteGroup(group)">
+                                    Delete Group
+                                </v-btn>
+                            </div>
                         </div>
                     </template>
                 </v-data-table>
@@ -65,6 +75,18 @@ import { usePortfolioStore } from '@/store/usePortfolioStore'
 
 const store = usePortfolioStore()
 const groupName = ref('')
+
+const expanded = ref([])
+
+const toggleExpand = (id) => {
+    if (expanded.value.includes(id)) {
+        expanded.value = expanded.value.filter(i => i !== id)
+    } else {
+        expanded.value.push(id)
+    }
+}
+
+const isExpanded = (id) => expanded.value.includes(id)
 
 const addGroup = () => {
     store.addGroup(groupName.value)
