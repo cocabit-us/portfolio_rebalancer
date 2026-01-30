@@ -1,6 +1,11 @@
 <template>
     <v-card class="mb-6" elevation="4" rounded>
-        <v-card-title>📊 Groups</v-card-title>
+        <v-card-title class="d-flex justify-space-between align-center">
+            <span>📊 Groups</span>
+            <span :style="{ color: store.totalTargetPercent === 100 ? 'green' : 'red', fontSize: '1rem' }">
+                Total: {{ store.totalTargetPercent }}%
+            </span>
+        </v-card-title>
         <v-card-text>
             <!-- Add new group -->
             <v-row dense class="mb-3">

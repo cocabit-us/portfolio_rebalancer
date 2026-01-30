@@ -70,6 +70,10 @@ export const usePortfolioStore = defineStore('portfolio', () => {
     return investments.value.reduce((sum, inv) => sum + inv.value, 0)
   })
 
+  const totalTargetPercent = computed(() => {
+    return groups.value.reduce((sum, group) => sum + (group.targetPercent || 0), 0)
+  })
+
   const currentValue = (stockId) => {
     const inv = investments.value.find(i => i.id === stockId)
     return inv ? inv.value : 0
@@ -105,6 +109,7 @@ export const usePortfolioStore = defineStore('portfolio', () => {
     addStockToGroup,
     removeStockFromGroup,
     currentValue,
+    totalTargetPercent,
     groupTargetValue,
     groupCurrentValue,
     groupBuySell,
