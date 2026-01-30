@@ -35,9 +35,6 @@
                                     <v-text-field v-model.number="group.targetPercent" :label="$t('target')"
                                         type="number" suffix="%" density="compact" hide-details variant="outlined" />
                                 </div>
-                                <div style="font-weight: bold; white-space: nowrap;" class="mr-3">
-                                    {{ $t('target') }}: {{ store.formatMoney(store.groupTargetValue(group)) }}
-                                </div>
                                 <div style="font-weight: bold; white-space: nowrap;"
                                     :style="{ color: store.groupBuySell(group) >= 0 ? 'green' : 'red' }">
                                     {{ store.groupBuySell(group) >= 0 ? $t('buy') : $t('sell') }}: {{
@@ -46,6 +43,17 @@
                             </div>
                         </div>
                         <div v-show="isExpanded(group.id)">
+                            <div class="d-flex justify-space-between align-center mb-2 px-2 py-1"
+                                style="background-color: #f5f5f5; border-radius: 4px;">
+                                <div>
+                                    <strong>{{ $t('total') }}:</strong> {{
+                                        store.formatMoney(store.groupCurrentValue(group)) }}
+                                </div>
+                                <div>
+                                    <strong>{{ $t('target') }}:</strong> {{
+                                        store.formatMoney(store.groupTargetValue(group)) }}
+                                </div>
+                            </div>
                             <div v-for="(stock, idx) in group.stocks" :key="idx" style="margin-bottom:8px;">
                                 <v-row dense align="center">
                                     <v-col cols="6">
