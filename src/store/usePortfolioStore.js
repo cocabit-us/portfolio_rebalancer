@@ -79,13 +79,6 @@ export const usePortfolioStore = defineStore('portfolio', () => {
     return (totalPortfolioValue.value * (group.targetPercent || 0)) / 100
   }
 
-  const targetValue = (stock, group) => {
-    if (!stock.selectedStock) return 0
-    return (groupTargetValue(group) * (stock.percent || 0)) / 100
-  }
-
-  const buySell = (stock, group) => targetValue(stock, group) - currentValue(stock.selectedStock)
-
   const formatMoney = (val) => `$${(val || 0).toLocaleString()}`
 
   // Persist
@@ -105,8 +98,6 @@ export const usePortfolioStore = defineStore('portfolio', () => {
     removeStockFromGroup,
     currentValue,
     groupTargetValue,
-    targetValue,
-    buySell,
     formatMoney
   }
 })
