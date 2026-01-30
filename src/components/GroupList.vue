@@ -14,9 +14,9 @@
             </v-row>
 
             <!-- Groups table -->
-            <div style="overflow-x:auto;">
-                <v-data-table :headers="headers" :items="store.groups" hide-default-footer density="compact">
-                    <template #item.stocks="{ item: group }">
+            <div class="mt-2">
+                <template v-for="(group, index) in store.groups" :key="group.id">
+                    <div>
                         <div class="d-flex flex-wrap justify-space-between align-center mb-3">
                             <div class="d-flex align-center">
                                 <v-btn icon variant="text" size="small" density="compact" class="mr-1"
@@ -69,8 +69,9 @@
                                 </v-btn>
                             </div>
                         </div>
-                    </template>
-                </v-data-table>
+                    </div>
+                    <v-divider v-if="index < store.groups.length - 1" class="my-4"></v-divider>
+                </template>
             </div>
         </v-card-text>
     </v-card>
@@ -118,8 +119,4 @@ const addGroup = () => {
 const deleteGroup = (group) => {
     store.deleteGroup(group.id)
 }
-
-const headers = [
-    { title: 'Groups', key: 'stocks', width: '100%' },
-]
 </script>
