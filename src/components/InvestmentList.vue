@@ -4,13 +4,14 @@
         <v-card-text>
             <!-- Add new investment -->
             <v-row dense>
-                <v-col cols="12" sm="5">
-                    <v-text-field v-model="name" label="Stock Name" outlined dense />
+                <v-col cols="5">
+                    <v-text-field v-model="name" label="Stock Name" variant="outlined" density="compact" />
                 </v-col>
-                <v-col cols="12" sm="5">
-                    <v-text-field v-model.number="value" label="Value ($)" type="number" outlined dense />
+                <v-col cols="5">
+                    <v-text-field v-model.number="value" label="Value ($)" type="number" variant="outlined"
+                        density="compact" />
                 </v-col>
-                <v-col cols="12" sm="2">
+                <v-col cols="2">
                     <v-btn color="primary" block @click="add">Add</v-btn>
                 </v-col>
             </v-row>
