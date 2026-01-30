@@ -40,8 +40,8 @@
                                 <v-row dense align="center">
                                     <v-col cols="6">
                                         <v-select v-model="stock.selectedStock"
-                                            :items="store.investments.map(i => i.name)" label="Stock" density="compact"
-                                            variant="outlined" hide-details />
+                                            :items="availableStocks(stock.selectedStock)" label="Stock"
+                                            density="compact" variant="outlined" hide-details />
                                     </v-col>
                                     <v-col cols="4" class="text-right">
                                         {{ store.formatMoney(store.currentValue(stock.selectedStock)) }}
@@ -71,7 +71,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { usePortfolioStore } from '@/store/usePortfolioStore'
 
 const store = usePortfolioStore()
@@ -88,6 +88,22 @@ const toggleExpand = (id) => {
 }
 
 const isExpanded = (id) => expanded.value.includes(id)
+
+const usedStockNames = computed(() => {
+    const used = new Set()
+    store.groups.forEach(g => {
+        g.stocks.forEach(s => {
+            if (s.selectedStock) used.add(s.selectedStock)
+        })
+    })
+    return used
+})
+
+const availableStocks = (currentStock) => {
+    return store.investments
+        .filter(i => !usedStockNames.value.has(i.name) || i.name === currentStock)
+        .map(i => i.name)
+}
 
 const addGroup = () => {
     store.addGroup(groupName.value)
