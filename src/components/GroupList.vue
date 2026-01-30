@@ -30,8 +30,13 @@
                                     <v-text-field v-model.number="group.targetPercent" label="Target" type="number"
                                         suffix="%" density="compact" hide-details variant="outlined" />
                                 </div>
-                                <div style="font-weight: bold; white-space: nowrap;">
+                                <div style="font-weight: bold; white-space: nowrap;" class="mr-3">
                                     Target: {{ store.formatMoney(store.groupTargetValue(group)) }}
+                                </div>
+                                <div style="font-weight: bold; white-space: nowrap;"
+                                    :style="{ color: store.groupBuySell(group) >= 0 ? 'green' : 'red' }">
+                                    {{ store.groupBuySell(group) >= 0 ? 'Buy' : 'Sell' }}: {{
+                                        store.formatMoney(Math.abs(store.groupBuySell(group))) }}
                                 </div>
                             </div>
                         </div>
