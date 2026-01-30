@@ -40,8 +40,9 @@
                                 <v-row dense align="center">
                                     <v-col cols="6">
                                         <v-select v-model="stock.selectedStock"
-                                            :items="availableStocks(stock.selectedStock)" label="Stock"
-                                            density="compact" variant="outlined" hide-details />
+                                            :items="availableStocks(stock.selectedStock)" item-title="name"
+                                            item-value="id" label="Stock" density="compact" variant="outlined"
+                                            hide-details />
                                     </v-col>
                                     <v-col cols="4" class="text-right">
                                         {{ store.formatMoney(store.currentValue(stock.selectedStock)) }}
@@ -89,7 +90,7 @@ const toggleExpand = (id) => {
 
 const isExpanded = (id) => expanded.value.includes(id)
 
-const usedStockNames = computed(() => {
+const usedStockIds = computed(() => {
     const used = new Set()
     store.groups.forEach(g => {
         g.stocks.forEach(s => {
@@ -99,10 +100,9 @@ const usedStockNames = computed(() => {
     return used
 })
 
-const availableStocks = (currentStock) => {
+const availableStocks = (currentStockId) => {
     return store.investments
-        .filter(i => !usedStockNames.value.has(i.name) || i.name === currentStock)
-        .map(i => i.name)
+        .filter(i => !usedStockIds.value.has(i.id) || i.id === currentStockId)
 }
 
 const addGroup = () => {

@@ -21,6 +21,16 @@ export const usePortfolioStore = defineStore('portfolio', () => {
     if (grp.targetPercent === undefined) {
       grp.targetPercent = 0
     }
+    // Migrate stocks from name to ID if necessary (for legacy data)
+    grp.stocks.forEach(stock => {
+      const invById = investments.value.find(i => i.id === stock.selectedStock)
+      if (!invById) {
+        const invByName = investments.value.find(i => i.name === stock.selectedStock)
+        if (invByName) {
+          stock.selectedStock = invByName.id
+        }
+      }
+    })
   })
 
   // Add investment
@@ -46,8 +56,8 @@ export const usePortfolioStore = defineStore('portfolio', () => {
   }
 
   // Add stock to group
-  const addStockToGroup = (group, stockName = '', percent = 0) => {
-    group.stocks.push({ selectedStock: stockName, percent })
+  const addStockToGroup = (group, stockId = '', percent = 0) => {
+    group.stocks.push({ selectedStock: stockId, percent })
   }
 
   // Remove stock from group
@@ -60,8 +70,8 @@ export const usePortfolioStore = defineStore('portfolio', () => {
     return investments.value.reduce((sum, inv) => sum + inv.value, 0)
   })
 
-  const currentValue = (stockName) => {
-    const inv = investments.value.find(i => i.name === stockName)
+  const currentValue = (stockId) => {
+    const inv = investments.value.find(i => i.id === stockId)
     return inv ? inv.value : 0
   }
 
