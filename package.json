@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "deploy": "gh-pages -d dist -f",
+    "deploy": "echo 'pr.cocabit.com' > dist/CNAME && gh-pages -d dist -f",
     "preview": "vite preview",
     "test:e2e": "playwright test",
     "build-only": "vite build",
