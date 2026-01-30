@@ -33,7 +33,7 @@
                     </template>
 
                     <template #item.value="{ item }">
-                        <div style="min-width: 90px; max-width: 120px; width: 100%;">
+                        <div style="min-width: 120px; max-width: 150px; width: 100%;">
                             <v-text-field :model-value="focusedFields[item.id] ? item.value : formatValue(item.value)"
                                 @update:model-value="val => item.value = parseFloat(val.replace(/,/g, '')) || 0"
                                 @focus="focusedFields[item.id] = true" @blur="focusedFields[item.id] = false"
