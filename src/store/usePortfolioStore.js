@@ -91,6 +91,10 @@ export const usePortfolioStore = defineStore('portfolio', () => {
     return groupTargetValue(group) - groupCurrentValue(group)
   }
 
+  const totalGroupsValue = computed(() => {
+    return groups.value.reduce((sum, group) => sum + groupCurrentValue(group), 0)
+  })
+
   const formatMoney = (val) => `$${(val || 0).toLocaleString()}`
 
   // Persist
@@ -114,6 +118,7 @@ export const usePortfolioStore = defineStore('portfolio', () => {
     groupTargetValue,
     groupCurrentValue,
     groupBuySell,
+    totalGroupsValue,
     formatMoney
   }
 })

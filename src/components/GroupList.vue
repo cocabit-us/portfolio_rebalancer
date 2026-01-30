@@ -1,7 +1,7 @@
 <template>
     <v-card class="mb-6" elevation="4" rounded>
         <v-card-title class="d-flex justify-space-between align-center">
-            <span>{{ $t('groups') }}</span>
+            <span>{{ $t('groups') }} : {{ store.formatMoney(store.totalGroupsValue) }}</span>
             <span :style="{ color: store.totalTargetPercent === 100 ? 'green' : 'red', fontSize: '1rem' }">
                 {{ $t('total') }}: {{ store.totalTargetPercent }}%
             </span>
