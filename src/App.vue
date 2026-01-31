@@ -35,12 +35,31 @@
 </template>
 
 <script setup>
+import { onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import InvestmentList from './components/InvestmentList.vue'
 import GroupList from './components/GroupList.vue'
 import SnapshotList from './components/SnapshotList.vue'
 
 const { locale } = useI18n()
+
+onMounted(() => {
+  if (!document.querySelector('script[src*="googletagmanager"]')) {
+    const script1 = document.createElement('script')
+    script1.async = true
+    script1.src = "https://www.googletagmanager.com/gtag/js?id=G-JWLXLVKTLP"
+    document.head.appendChild(script1)
+
+    const script2 = document.createElement('script')
+    script2.innerHTML = `
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-JWLXLVKTLP');
+    `
+    document.head.appendChild(script2)
+  }
+})
 
 const companyLink = `<a href="https://github.com/cocabit-us/portfolio_rebalancer" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit;">Cocabit</a>`
 
