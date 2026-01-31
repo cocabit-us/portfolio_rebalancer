@@ -35,7 +35,7 @@ export const usePortfolioStore = defineStore('portfolio', () => {
 
   // Add investment
   const addInvestment = (name, value) => {
-    if (!name || value <= 0) return
+    if (!name) return
     investments.value.push({ id: crypto.randomUUID(), name, value: parseFloat(value) })
   }
 
