@@ -22,6 +22,7 @@
         <div style="max-width: 600px; margin: 0 auto;">
           <InvestmentList />
           <GroupList />
+          <SnapshotList />
         </div>
       </v-container>
     </v-main>
@@ -36,6 +37,7 @@
 import { useI18n } from 'vue-i18n'
 import InvestmentList from './components/InvestmentList.vue'
 import GroupList from './components/GroupList.vue'
+import SnapshotList from './components/SnapshotList.vue'
 
 const { locale } = useI18n()
 

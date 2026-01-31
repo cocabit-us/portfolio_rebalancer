@@ -4,6 +4,7 @@ import { ref, computed, watch } from 'vue'
 export const usePortfolioStore = defineStore('portfolio', () => {
   const investments = ref(JSON.parse(localStorage.getItem('investments') || '[]'))
   const groups = ref(JSON.parse(localStorage.getItem('groups') || '[]'))
+  const snapshots = ref(JSON.parse(localStorage.getItem('snapshots') || '[]'))
 
   // Ensure all investments have a unique ID for deletion.
   // This handles legacy data from localStorage that might not have an ID.
@@ -65,6 +66,26 @@ export const usePortfolioStore = defineStore('portfolio', () => {
     group.stocks.splice(index, 1)
   }
 
+  // Snapshots
+  const saveSnapshot = (name) => {
+    snapshots.value.push({
+      id: crypto.randomUUID(),
+      name: name || new Date().toLocaleString(),
+      date: new Date().toISOString(),
+      investments: JSON.parse(JSON.stringify(investments.value)),
+      groups: JSON.parse(JSON.stringify(groups.value))
+    })
+  }
+
+  const deleteSnapshot = (id) => {
+    snapshots.value = snapshots.value.filter(s => s.id !== id)
+  }
+
+  const loadSnapshot = (snapshot) => {
+    investments.value = JSON.parse(JSON.stringify(snapshot.investments))
+    groups.value = JSON.parse(JSON.stringify(snapshot.groups))
+  }
+
   // Calculations
   const totalPortfolioValue = computed(() => {
     return investments.value.reduce((sum, inv) => sum + inv.value, 0)
@@ -98,20 +119,25 @@ export const usePortfolioStore = defineStore('portfolio', () => {
   const formatMoney = (val) => `$${(val || 0).toLocaleString()}`
 
   // Persist
-  watch([investments, groups], () => {
+  watch([investments, groups, snapshots], () => {
     localStorage.setItem('investments', JSON.stringify(investments.value))
     localStorage.setItem('groups', JSON.stringify(groups.value))
+    localStorage.setItem('snapshots', JSON.stringify(snapshots.value))
   }, { deep: true })
 
   return {
     investments,
     groups,
+    snapshots,
     addInvestment,
     deleteInvestment,
     addGroup,
     deleteGroup,
     addStockToGroup,
     removeStockFromGroup,
+    saveSnapshot,
+    deleteSnapshot,
+    loadSnapshot,
     currentValue,
     totalPortfolioValue,
     totalTargetPercent,
