@@ -29,7 +29,8 @@ const messages = {
     save: 'Save',
     noSnapshots: 'No snapshots saved',
     confirmLoadSnapshot: 'Are you sure you want to load this snapshot? Current data will be overwritten.',
-    confirmDeleteSnapshot: 'Are you sure you want to delete this snapshot?'
+    confirmDeleteSnapshot: 'Are you sure you want to delete this snapshot?',
+    snapshotGraph: 'Snapshot Value History'
   },
   zh: {
     appTitle: '投资组合再平衡',
@@ -53,7 +54,8 @@ const messages = {
     save: '保存',
     noSnapshots: '没有保存的快照',
     confirmLoadSnapshot: '确定要加载此快照吗？当前数据将被覆盖。',
-    confirmDeleteSnapshot: '确定要删除此快照吗？'
+    confirmDeleteSnapshot: '确定要删除此快照吗？',
+    snapshotGraph: '快照价值历史'
   },
   es: {
     appTitle: 'Reequilibrio de Cartera',
@@ -77,7 +79,8 @@ const messages = {
     save: 'Guardar',
     noSnapshots: 'No hay instantáneas guardadas',
     confirmLoadSnapshot: '¿Estás seguro de que quieres cargar esta instantánea? Los datos actuales se sobrescribirán.',
-    confirmDeleteSnapshot: '¿Estás seguro de que quieres eliminar esta instantánea?'
+    confirmDeleteSnapshot: '¿Estás seguro de que quieres eliminar esta instantánea?',
+    snapshotGraph: 'Historial de valor de instantáneas'
   },
   de: {
     appTitle: 'Portfolio-Rebalancing',
@@ -101,7 +104,8 @@ const messages = {
     save: 'Speichern',
     noSnapshots: 'Keine Schnappschüsse gespeichert',
     confirmLoadSnapshot: 'Sind Sie sicher, dass Sie diesen Schnappschuss laden möchten? Aktuelle Daten werden überschrieben.',
-    confirmDeleteSnapshot: 'Sind Sie sicher, dass Sie diesen Schnappschuss löschen möchten?'
+    confirmDeleteSnapshot: 'Sind Sie sicher, dass Sie diesen Schnappschuss löschen möchten?',
+    snapshotGraph: 'Snapshot-Wertverlauf'
   },
   ja: {
     appTitle: 'ポートフォリオ・リバランス',
@@ -125,7 +129,8 @@ const messages = {
     save: '保存',
     noSnapshots: '保存されたスナップショットはありません',
     confirmLoadSnapshot: 'このスナップショットを読み込みますか？現在のデータは上書きされます。',
-    confirmDeleteSnapshot: 'このスナップショットを削除してもよろしいですか？'
+    confirmDeleteSnapshot: 'このスナップショットを削除してもよろしいですか？',
+    snapshotGraph: 'スナップショット価値履歴'
   },
   ko: {
     appTitle: '포트폴리오 리밸런싱',
@@ -149,7 +154,8 @@ const messages = {
     save: '저장',
     noSnapshots: '저장된 스냅샷 없음',
     confirmLoadSnapshot: '이 스냅샷을 불러오시겠습니까? 현재 데이터가 덮어씌워집니다.',
-    confirmDeleteSnapshot: '이 스냅샷을 삭제하시겠습니까?'
+    confirmDeleteSnapshot: '이 스냅샷을 삭제하시겠습니까?',
+    snapshotGraph: '스냅샷 가치 기록'
   }
 }
 

@@ -25,6 +25,9 @@
                     <v-list v-if="store.snapshots.length" density="compact" class="mt-2">
                         <v-list-item v-for="item in store.snapshots" :key="item.id" :title="item.name"
                             :subtitle="new Date(item.date).toLocaleString(locale)">
+                            <template #prepend>
+                                <v-checkbox-btn v-model="selected" :value="item.id" density="compact" class="mr-2" />
+                            </template>
                             <template #append>
                                 <v-btn icon flat size="small" color="primary" class="mr-1" @click="load(item)">
                                     <v-icon>mdi-restore</v-icon>
@@ -38,6 +41,8 @@
                     <div v-else class="text-center mt-4 text-caption text-grey">
                         {{ $t('noSnapshots') }}
                     </div>
+
+                    <SimpleChart v-if="chartData.length > 0" :data="chartData" :title="$t('snapshotGraph')" />
                 </v-card-text>
             </div>
         </v-expand-transition>
@@ -45,14 +50,32 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { usePortfolioStore } from '@/store/usePortfolioStore'
 import { useI18n } from 'vue-i18n'
+import SimpleChart from './SimpleChart.vue'
 
 const { t, locale } = useI18n()
 const store = usePortfolioStore()
 const name = ref('')
 const isExpanded = ref(true)
+const selected = ref([])
+
+const chartData = computed(() => {
+    if (selected.value.length === 0) return []
+
+    const selectedSnapshots = store.snapshots.filter(s => selected.value.includes(s.id))
+    selectedSnapshots.sort((a, b) => new Date(a.date) - new Date(b.date))
+
+    return selectedSnapshots.map(s => {
+        const total = s.investments.reduce((sum, i) => sum + (i.value || 0), 0)
+        return {
+            date: s.date,
+            value: total,
+            formattedValue: store.formatMoney(total)
+        }
+    })
+})
 
 const save = () => {
     store.saveSnapshot(name.value)
