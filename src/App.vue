@@ -28,7 +28,8 @@
     </v-main>
 
     <v-footer color="grey-lighten-4" app height="20">
-      <div class="text-center w-100 text-caption">{{ $t('footer', { year: new Date().getFullYear() }) }}</div>
+      <div class="text-center w-100 text-caption"
+        v-html="$t('footer', { year: new Date().getFullYear(), company: companyLink })"></div>
     </v-footer>
   </v-app>
 </template>
@@ -40,6 +41,8 @@ import GroupList from './components/GroupList.vue'
 import SnapshotList from './components/SnapshotList.vue'
 
 const { locale } = useI18n()
+
+const companyLink = `<a href="https://github.com/cocabit-us/portfolio_rebalancer" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit;">Cocabit</a>`
 
 const langs = [
   { title: 'English', value: 'en' },
