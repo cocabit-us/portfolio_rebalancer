@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-app-bar app color="primary" dark>
-      <v-app-bar-title>{{ $t('appTitle') }}</v-app-bar-title>
+      <div class="text-h6 ml-4">{{ $t('appTitle') }}</div>
       <v-spacer></v-spacer>
       <v-menu>
         <template v-slot:activator="{ props }">
