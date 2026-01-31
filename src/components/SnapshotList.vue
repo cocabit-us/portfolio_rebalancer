@@ -24,7 +24,7 @@
 
                     <v-list v-if="store.snapshots.length" density="compact" class="mt-2">
                         <v-list-item v-for="item in store.snapshots" :key="item.id" :title="item.name"
-                            :subtitle="new Date(item.date).toLocaleString()">
+                            :subtitle="new Date(item.date).toLocaleString(locale)">
                             <template #append>
                                 <v-btn icon flat size="small" color="primary" class="mr-1" @click="load(item)">
                                     <v-icon>mdi-restore</v-icon>
@@ -47,7 +47,9 @@
 <script setup>
 import { ref } from 'vue'
 import { usePortfolioStore } from '@/store/usePortfolioStore'
+import { useI18n } from 'vue-i18n'
 
+const { t, locale } = useI18n()
 const store = usePortfolioStore()
 const name = ref('')
 const isExpanded = ref(true)
@@ -58,13 +60,13 @@ const save = () => {
 }
 
 const load = (item) => {
-    if (confirm('Are you sure you want to load this snapshot? Current data will be overwritten.')) {
+    if (confirm(t('confirmLoadSnapshot'))) {
         store.loadSnapshot(item)
     }
 }
 
 const remove = (item) => {
-    if (confirm('Are you sure you want to delete this snapshot?')) {
+    if (confirm(t('confirmDeleteSnapshot'))) {
         store.deleteSnapshot(item.id)
     }
 }

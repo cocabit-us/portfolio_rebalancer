@@ -23,7 +23,13 @@ const messages = {
     sell: 'Sell',
     addStock: '+ Add Stock',
     deleteGroup: 'Delete Group',
-    footer: '© {year} Cocabit'
+    footer: '© {year} Cocabit',
+    snapshots: '📸 Snapshots',
+    snapshotName: 'Snapshot Name',
+    save: 'Save',
+    noSnapshots: 'No snapshots saved',
+    confirmLoadSnapshot: 'Are you sure you want to load this snapshot? Current data will be overwritten.',
+    confirmDeleteSnapshot: 'Are you sure you want to delete this snapshot?'
   },
   zh: {
     appTitle: '投资组合再平衡',
@@ -41,7 +47,13 @@ const messages = {
     sell: '卖出',
     addStock: '+ 添加股票',
     deleteGroup: '删除组合',
-    footer: '© {year} Cocabit'
+    footer: '© {year} Cocabit',
+    snapshots: '📸 快照',
+    snapshotName: '快照名称',
+    save: '保存',
+    noSnapshots: '没有保存的快照',
+    confirmLoadSnapshot: '确定要加载此快照吗？当前数据将被覆盖。',
+    confirmDeleteSnapshot: '确定要删除此快照吗？'
   },
   es: {
     appTitle: 'Reequilibrio de Cartera',
@@ -59,7 +71,13 @@ const messages = {
     sell: 'Vender',
     addStock: '+ Añadir Acción',
     deleteGroup: 'Eliminar Grupo',
-    footer: '© {year} Cocabit'
+    footer: '© {year} Cocabit',
+    snapshots: '📸 Instantáneas',
+    snapshotName: 'Nombre de la instantánea',
+    save: 'Guardar',
+    noSnapshots: 'No hay instantáneas guardadas',
+    confirmLoadSnapshot: '¿Estás seguro de que quieres cargar esta instantánea? Los datos actuales se sobrescribirán.',
+    confirmDeleteSnapshot: '¿Estás seguro de que quieres eliminar esta instantánea?'
   },
   de: {
     appTitle: 'Portfolio-Rebalancing',
@@ -77,7 +95,13 @@ const messages = {
     sell: 'Verkaufen',
     addStock: '+ Aktie hinzufügen',
     deleteGroup: 'Gruppe löschen',
-    footer: '© {year} Cocabit'
+    footer: '© {year} Cocabit',
+    snapshots: '📸 Schnappschüsse',
+    snapshotName: 'Schnappschuss-Name',
+    save: 'Speichern',
+    noSnapshots: 'Keine Schnappschüsse gespeichert',
+    confirmLoadSnapshot: 'Sind Sie sicher, dass Sie diesen Schnappschuss laden möchten? Aktuelle Daten werden überschrieben.',
+    confirmDeleteSnapshot: 'Sind Sie sicher, dass Sie diesen Schnappschuss löschen möchten?'
   },
   ja: {
     appTitle: 'ポートフォリオ・リバランス',
@@ -95,7 +119,13 @@ const messages = {
     sell: '売り',
     addStock: '+ 銘柄を追加',
     deleteGroup: 'グループを削除',
-    footer: '© {year} Cocabit'
+    footer: '© {year} Cocabit',
+    snapshots: '📸 スナップショット',
+    snapshotName: 'スナップショット名',
+    save: '保存',
+    noSnapshots: '保存されたスナップショットはありません',
+    confirmLoadSnapshot: 'このスナップショットを読み込みますか？現在のデータは上書きされます。',
+    confirmDeleteSnapshot: 'このスナップショットを削除してもよろしいですか？'
   },
   ko: {
     appTitle: '포트폴리오 리밸런싱',
@@ -113,7 +143,13 @@ const messages = {
     sell: '매도',
     addStock: '+ 주식 추가',
     deleteGroup: '그룹 삭제',
-    footer: '© {year} Cocabit'
+    footer: '© {year} Cocabit',
+    snapshots: '📸 스냅샷',
+    snapshotName: '스냅샷 이름',
+    save: '저장',
+    noSnapshots: '저장된 스냅샷 없음',
+    confirmLoadSnapshot: '이 스냅샷을 불러오시겠습니까? 현재 데이터가 덮어씌워집니다.',
+    confirmDeleteSnapshot: '이 스냅샷을 삭제하시겠습니까?'
   }
 }
 
