@@ -54,8 +54,9 @@
 
                             <template #item.code="{ item }">
                                 <div style="min-width: 80px; width: 100%;">
-                                    <v-text-field v-model="item.code" variant="outlined" density="compact" hide-details
-                                        style="font-size: 14px;" />
+                                    <v-text-field v-model="item.code" @change="refreshItemPrice(item)"
+                                        variant="outlined" density="compact" hide-details style="font-size: 14px;"
+                                        :loading="refreshingIds.includes(item.id)" />
                                 </div>
                             </template>
 
@@ -86,6 +87,10 @@
                             </template>
 
                             <template #item.actions="{ item }">
+                                <v-btn icon flat size="small" @click="refreshItemPrice(item)"
+                                    :loading="refreshingIds.includes(item.id)" class="mr-1">
+                                    <v-icon>mdi-refresh</v-icon>
+                                </v-btn>
                                 <v-btn icon flat size="small" @click="deleteInvestment(item)">
                                     <v-icon>mdi-delete</v-icon>
                                 </v-btn>
@@ -110,6 +115,7 @@ const code = ref('')
 const amount = ref('')
 const loading = ref(false)
 const inputMode = ref('value')
+const refreshingIds = ref([])
 const isExpanded = ref(true)
 const focusedFields = ref({})
 
@@ -180,12 +186,27 @@ const updateValue = (item, val) => {
     }
 }
 
+const refreshItemPrice = async (item) => {
+    if (!item.code || refreshingIds.value.includes(item.id)) return
+    refreshingIds.value.push(item.id)
+    const price = await store.fetchPrice(item.code)
+    if (price) {
+        item.price = price
+        if (item.shares && item.shares > 0) {
+            item.value = item.shares * price
+        } else if (item.value && item.value > 0) {
+            item.shares = item.value / price
+        }
+    }
+    refreshingIds.value = refreshingIds.value.filter(id => id !== item.id)
+}
+
 const headers = computed(() => [
-    { title: t('stockName'), key: 'name', width: '20%' },
+    { title: t('stockName'), key: 'name', width: '15%' },
     { title: t('stockCode'), key: 'code', width: '15%' },
     { title: t('price'), key: 'price', width: '15%' },
     { title: t('shares'), key: 'shares', width: '20%' },
     { title: t('value'), key: 'value', width: '20%' },
-    { title: t('actions'), key: 'actions', width: '10%', sortable: false },
+    { title: t('actions'), key: 'actions', width: '15%', sortable: false },
 ])
 </script>
