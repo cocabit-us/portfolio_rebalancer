@@ -36,9 +36,10 @@
                                         type="number" suffix="%" density="compact" hide-details variant="outlined" />
                                 </div>
                                 <div style="font-weight: bold; white-space: nowrap;"
-                                    :style="{ color: store.groupBuySell(group) >= 0 ? 'green' : 'red' }">
+                                    :style="{ color: getActionColor(group) }">
                                     {{ store.groupBuySell(group) >= 0 ? $t('buy') : $t('sell') }}: {{
                                         store.formatMoney(Math.abs(store.groupBuySell(group))) }}
+                                    <span class="ml-1">({{ getPercentage(group).toFixed(1) }}%)</span>
                                 </div>
                             </div>
                         </div>
@@ -131,5 +132,23 @@ const addGroup = () => {
 
 const deleteGroup = (group) => {
     store.deleteGroup(group.id)
+}
+
+const getPercentage = (group) => {
+    if (!store.totalPortfolioValue) return 0
+    return (Math.abs(store.groupBuySell(group)) / store.totalPortfolioValue) * 100
+}
+
+const getActionColor = (group) => {
+    const amount = store.groupBuySell(group)
+    const percent = getPercentage(group)
+
+    if (amount < 0) { // Sell
+        if (percent > 20) return 'darkred'
+        if (percent > 10) return 'red'
+    } else { // Buy
+        if (percent > 10) return 'darkgreen'
+    }
+    return 'grey'
 }
 </script>
