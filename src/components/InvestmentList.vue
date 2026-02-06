@@ -61,8 +61,10 @@
 
                             <template #item.shares="{ item }">
                                 <div style="min-width: 80px; width: 100%;">
-                                    <v-text-field v-model.number="item.shares" variant="outlined" density="compact"
-                                        hide-details style="font-size: 14px; text-align: right;" type="number" />
+                                    <v-text-field :model-value="item.shares"
+                                        @update:model-value="val => updateShares(item, val)" variant="outlined"
+                                        density="compact" hide-details style="font-size: 14px; text-align: right;"
+                                        type="number" />
                                 </div>
                             </template>
 
@@ -76,7 +78,7 @@
                                 <div style="min-width: 100px; max-width: 150px; width: 100%;">
                                     <v-text-field
                                         :model-value="focusedFields[item.id] ? item.value : formatValue(item.value)"
-                                        @update:model-value="val => item.value = parseFloat(val.replace(/,/g, '')) || 0"
+                                        @update:model-value="val => updateValue(item, val)"
                                         @focus="focusedFields[item.id] = true" @blur="focusedFields[item.id] = false"
                                         type="text" variant="outlined" density="compact" hide-details
                                         style="font-size: 14px; text-align: right;" />
@@ -160,6 +162,22 @@ const add = async () => {
 
 const deleteInvestment = (investment) => {
     store.deleteInvestment(investment.id) // Assuming each investment has a unique 'id'
+}
+
+const updateShares = (item, val) => {
+    const shares = parseFloat(val) || 0
+    item.shares = shares
+    if (item.price) {
+        item.value = shares * item.price
+    }
+}
+
+const updateValue = (item, val) => {
+    const value = parseFloat(val.replace(/,/g, '')) || 0
+    item.value = value
+    if (item.price) {
+        item.shares = value / item.price
+    }
 }
 
 const headers = computed(() => [
