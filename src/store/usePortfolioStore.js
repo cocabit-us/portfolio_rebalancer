@@ -12,6 +12,9 @@ export const usePortfolioStore = defineStore('portfolio', () => {
     if (!inv.id) {
       inv.id = crypto.randomUUID()
     }
+    if (inv.price === undefined) {
+      inv.price = 0
+    }
   })
 
   // Ensure all groups have a unique ID for deletion.
