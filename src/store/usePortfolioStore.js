@@ -35,9 +35,35 @@ export const usePortfolioStore = defineStore('portfolio', () => {
   })
 
   // Add investment
-  const addInvestment = (name, value) => {
-    if (!name) return
-    investments.value.push({ id: crypto.randomUUID(), name, value: parseFloat(value) })
+  const addInvestment = (name, code, value, shares = 0, price = 0) => {
+    const numValue = parseFloat(value)
+    if (isNaN(numValue)) return
+    investments.value.push({ id: crypto.randomUUID(), name: name || '', code: code || '', value: numValue, shares: parseFloat(shares) || 0, price: parseFloat(price) || 0 })
+  }
+
+  const fetchPrice = async (symbol) => {
+    if (!symbol) return null
+    try {
+      const response = await fetch(`https://corsproxy.io/?https://query1.finance.yahoo.com/v8/finance/chart/${symbol}`)
+      if (!response.ok) throw new Error('Network response was not ok')
+      const data = await response.json()
+      return data.chart.result[0].meta.regularMarketPrice
+    } catch (e) {
+      console.error('Failed to fetch price:', e)
+      return null
+    }
+  }
+
+  const refreshPrices = async () => {
+    await Promise.all(investments.value.map(async (inv) => {
+      if (inv.code && inv.shares) {
+        const price = await fetchPrice(inv.code)
+        if (price) {
+          inv.price = price
+          inv.value = inv.shares * price
+        }
+      }
+    }))
   }
 
   // Delete investment
@@ -125,6 +151,9 @@ export const usePortfolioStore = defineStore('portfolio', () => {
     localStorage.setItem('snapshots', JSON.stringify(snapshots.value))
   }, { deep: true })
 
+  // Refresh prices on load
+  refreshPrices()
+
   return {
     investments,
     groups,
@@ -145,6 +174,8 @@ export const usePortfolioStore = defineStore('portfolio', () => {
     groupCurrentValue,
     groupBuySell,
     totalGroupsValue,
-    formatMoney
+    formatMoney,
+    fetchPrice,
+    refreshPrices
   }
 })
