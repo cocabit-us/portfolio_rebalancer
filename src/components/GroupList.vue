@@ -145,7 +145,7 @@ const getActionColor = (group) => {
 
     if (percent > 120) return 'darkred'
     if (percent > 110) return 'red'
-    if (percent < 80) return 'darkgreen'
+    if (percent < 80) return 'blue'
     if (percent < 90) return 'green'
     return 'grey'
 }
