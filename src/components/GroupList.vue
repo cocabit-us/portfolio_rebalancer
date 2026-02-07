@@ -135,8 +135,9 @@ const deleteGroup = (group) => {
 }
 
 const getPercentage = (group) => {
-    if (!store.totalPortfolioValue) return 0
-    return (Math.abs(store.groupBuySell(group)) / store.totalPortfolioValue) * 100
+    const targetValue = store.groupTargetValue(group)
+    if (!targetValue) return 0
+    return (Math.abs(store.groupBuySell(group)) / targetValue) * 100
 }
 
 const getActionColor = (group) => {
@@ -145,9 +146,10 @@ const getActionColor = (group) => {
 
     if (amount < 0) { // Sell
         if (percent > 20) return 'darkred'
-        if (percent > 10) return 'red'
-    } else { // Buy
-        if (percent > 10) return 'darkgreen'
+        return 'red'
+    } else if (amount > 0) { // Buy
+        if (percent > 20) return 'darkgreen'
+        return 'green'
     }
     return 'grey'
 }
