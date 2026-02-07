@@ -47,10 +47,14 @@ export const usePortfolioStore = defineStore('portfolio', () => {
   const fetchPrice = async (symbol) => {
     if (!symbol) return null
     try {
-      const response = await fetch(`https://corsproxy.io/?https://query1.finance.yahoo.com/v8/finance/chart/${symbol}`)
+      // Using a CORS proxy. corsproxy.io's free tier is localhost-only, so using allorigins.win.
+      const yahooURL = `https://query1.finance.yahoo.com/v8/finance/chart/${symbol}`
+      const proxyURL = `https://api.allorigins.win/get?url=${encodeURIComponent(yahooURL)}`
+      const response = await fetch(proxyURL)
       if (!response.ok) throw new Error('Network response was not ok')
       const data = await response.json()
-      return data.chart.result[0].meta.regularMarketPrice
+      const yahooData = JSON.parse(data.contents)
+      return yahooData?.chart?.result?.[0]?.meta?.regularMarketPrice || null
     } catch (e) {
       console.error('Failed to fetch price:', e)
       return null
