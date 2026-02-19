@@ -22,8 +22,8 @@
         <div style="max-width: 600px; margin: 0 auto;">
           <v-text-field
             v-model="apiKey"
-            label="Twelve Data API Key"
-            placeholder="Enter your API key"
+            :label="$t('apiKeyLabel')"
+            :placeholder="$t('apiKeyPlaceholder')"
             variant="outlined"
             density="compact"
           >

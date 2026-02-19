@@ -33,7 +33,9 @@ const messages = {
     noSnapshots: 'No snapshots saved',
     confirmLoadSnapshot: 'Are you sure you want to load this snapshot? Current data will be overwritten.',
     confirmDeleteSnapshot: 'Are you sure you want to delete this snapshot?',
-    snapshotGraph: 'Snapshot Value History'
+    snapshotGraph: 'Snapshot Value History',
+    apiKeyLabel: 'Twelve Data API Key',
+    apiKeyPlaceholder: 'Enter your API key'
   },
   zh: {
     appTitle: '投资组合再平衡',
@@ -61,7 +63,9 @@ const messages = {
     noSnapshots: '没有保存的快照',
     confirmLoadSnapshot: '确定要加载此快照吗？当前数据将被覆盖。',
     confirmDeleteSnapshot: '确定要删除此快照吗？',
-    snapshotGraph: '快照价值历史'
+    snapshotGraph: '快照价值历史',
+    apiKeyLabel: 'Twelve Data API 密钥',
+    apiKeyPlaceholder: '输入您的 API 密钥'
   },
   es: {
     appTitle: 'Reequilibrio de Cartera',
@@ -89,7 +93,9 @@ const messages = {
     noSnapshots: 'No hay instantáneas guardadas',
     confirmLoadSnapshot: '¿Estás seguro de que quieres cargar esta instantánea? Los datos actuales se sobrescribirán.',
     confirmDeleteSnapshot: '¿Estás seguro de que quieres eliminar esta instantánea?',
-    snapshotGraph: 'Historial de valor de instantáneas'
+    snapshotGraph: 'Historial de valor de instantáneas',
+    apiKeyLabel: 'Clave de API de Twelve Data',
+    apiKeyPlaceholder: 'Ingrese su clave de API'
   },
   de: {
     appTitle: 'Portfolio-Rebalancing',
@@ -117,7 +123,9 @@ const messages = {
     noSnapshots: 'Keine Schnappschüsse gespeichert',
     confirmLoadSnapshot: 'Sind Sie sicher, dass Sie diesen Schnappschuss laden möchten? Aktuelle Daten werden überschrieben.',
     confirmDeleteSnapshot: 'Sind Sie sicher, dass Sie diesen Schnappschuss löschen möchten?',
-    snapshotGraph: 'Snapshot-Wertverlauf'
+    snapshotGraph: 'Snapshot-Wertverlauf',
+    apiKeyLabel: 'Twelve Data API-Schlüssel',
+    apiKeyPlaceholder: 'Geben Sie Ihren API-Schlüssel ein'
   },
   ja: {
     appTitle: 'ポートフォリオ・リバランス',
@@ -145,7 +153,9 @@ const messages = {
     noSnapshots: '保存されたスナップショットはありません',
     confirmLoadSnapshot: 'このスナップショットを読み込みますか？現在のデータは上書きされます。',
     confirmDeleteSnapshot: 'このスナップショットを削除してもよろしいですか？',
-    snapshotGraph: 'スナップショット価値履歴'
+    snapshotGraph: 'スナップショット価値履歴',
+    apiKeyLabel: 'Twelve Data API キー',
+    apiKeyPlaceholder: 'API キーを入力してください'
   },
   ko: {
     appTitle: '포트폴리오 리밸런싱',
@@ -173,7 +183,9 @@ const messages = {
     noSnapshots: '저장된 스냅샷 없음',
     confirmLoadSnapshot: '이 스냅샷을 불러오시겠습니까? 현재 데이터가 덮어씌워집니다.',
     confirmDeleteSnapshot: '이 스냅샷을 삭제하시겠습니까?',
-    snapshotGraph: '스냅샷 가치 기록'
+    snapshotGraph: '스냅샷 가치 기록',
+    apiKeyLabel: 'Twelve Data API 키',
+    apiKeyPlaceholder: 'API 키를 입력하세요'
   }
 }
 
