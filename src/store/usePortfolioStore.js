@@ -44,17 +44,38 @@ export const usePortfolioStore = defineStore('portfolio', () => {
     investments.value.push({ id: crypto.randomUUID(), name: name || '', code: code || '', value: numValue, shares: parseFloat(shares) || 0, price: parseFloat(price) || 0 })
   }
 
+  const priceCache = ref(JSON.parse(localStorage.getItem('priceCache') || '{}'))
+
   const fetchPrice = async (symbol) => {
     if (!symbol) return null
+    
+    const now = new Date()
+    const cached = priceCache.value[symbol]
+    const fiveMinutes = 5 * 60 * 1000
+
+    if (cached && (now - new Date(cached.lastFetched)) < fiveMinutes) {
+      console.log(`Using cached price for ${symbol}`)
+      return cached.price
+    }
+
+    console.log(`Fetching fresh price for ${symbol}`)
+    // It is not recommended to store API keys in source code.
+    // Ideally, this should be stored in an environment variable.
+    const token = '733b6cef93784f609681a13d93389adc'
     try {
-      // Using a CORS proxy. corsproxy.io's free tier is localhost-only, so using allorigins.win.
-      const yahooURL = `https://query1.finance.yahoo.com/v8/finance/chart/${symbol}`
-      const proxyURL = `https://api.allorigins.win/get?url=${encodeURIComponent(yahooURL)}`
-      const response = await fetch(proxyURL)
+      const url = `https://api.twelvedata.com/price?symbol=${symbol}&apikey=${token}`
+      const response = await fetch(url)
       if (!response.ok) throw new Error('Network response was not ok')
       const data = await response.json()
-      const yahooData = JSON.parse(data.contents)
-      return yahooData?.chart?.result?.[0]?.meta?.regularMarketPrice || null
+      if (data.price) {
+        const price = parseFloat(data.price)
+        priceCache.value[symbol] = {
+          price,
+          lastFetched: now
+        }
+        return price
+      }
+      return null
     } catch (e) {
       console.error('Failed to fetch price:', e)
       return null
@@ -152,10 +173,11 @@ export const usePortfolioStore = defineStore('portfolio', () => {
   const formatMoney = (val) => `$${(val || 0).toLocaleString()}`
 
   // Persist
-  watch([investments, groups, snapshots], () => {
+  watch([investments, groups, snapshots, priceCache], () => {
     localStorage.setItem('investments', JSON.stringify(investments.value))
     localStorage.setItem('groups', JSON.stringify(groups.value))
     localStorage.setItem('snapshots', JSON.stringify(snapshots.value))
+    localStorage.setItem('priceCache', JSON.stringify(priceCache.value))
   }, { deep: true })
 
   // Refresh prices on load
