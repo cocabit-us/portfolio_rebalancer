@@ -44,10 +44,16 @@ export const usePortfolioStore = defineStore('portfolio', () => {
     investments.value.push({ id: crypto.randomUUID(), name: name || '', code: code || '', value: numValue, shares: parseFloat(shares) || 0, price: parseFloat(price) || 0 })
   }
 
+  const apiKey = ref(JSON.parse(localStorage.getItem('apiKey') || '""'))
   const priceCache = ref(JSON.parse(localStorage.getItem('priceCache') || '{}'))
+
+  const setApiKey = (key) => {
+    apiKey.value = key
+  }
 
   const fetchPrice = async (symbol) => {
     if (!symbol) return null
+    if (!apiKey.value) return null
     
     const now = new Date()
     const cached = priceCache.value[symbol]
@@ -59,11 +65,8 @@ export const usePortfolioStore = defineStore('portfolio', () => {
     }
 
     console.log(`Fetching fresh price for ${symbol}`)
-    // It is not recommended to store API keys in source code.
-    // Ideally, this should be stored in an environment variable.
-    const token = '733b6cef93784f609681a13d93389adc'
     try {
-      const url = `https://api.twelvedata.com/price?symbol=${symbol}&apikey=${token}`
+      const url = `https://api.twelvedata.com/price?symbol=${symbol}&apikey=${apiKey.value}`
       const response = await fetch(url)
       if (!response.ok) throw new Error('Network response was not ok')
       const data = await response.json()
@@ -75,6 +78,7 @@ export const usePortfolioStore = defineStore('portfolio', () => {
         }
         return price
       }
+      console.error('Failed to fetch price with null:', data, ' url:', url)
       return null
     } catch (e) {
       console.error('Failed to fetch price:', e)
@@ -173,11 +177,12 @@ export const usePortfolioStore = defineStore('portfolio', () => {
   const formatMoney = (val) => `$${(val || 0).toLocaleString()}`
 
   // Persist
-  watch([investments, groups, snapshots, priceCache], () => {
+  watch([investments, groups, snapshots, priceCache, apiKey], () => {
     localStorage.setItem('investments', JSON.stringify(investments.value))
     localStorage.setItem('groups', JSON.stringify(groups.value))
     localStorage.setItem('snapshots', JSON.stringify(snapshots.value))
     localStorage.setItem('priceCache', JSON.stringify(priceCache.value))
+    localStorage.setItem('apiKey', JSON.stringify(apiKey.value))
   }, { deep: true })
 
   // Refresh prices on load
@@ -187,6 +192,7 @@ export const usePortfolioStore = defineStore('portfolio', () => {
     investments,
     groups,
     snapshots,
+    apiKey,
     addInvestment,
     deleteInvestment,
     addGroup,
@@ -205,6 +211,7 @@ export const usePortfolioStore = defineStore('portfolio', () => {
     totalGroupsValue,
     formatMoney,
     fetchPrice,
-    refreshPrices
+    refreshPrices,
+    setApiKey
   }
 })

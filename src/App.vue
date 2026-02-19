@@ -20,6 +20,19 @@
     <v-main>
       <v-container class="py-6" fluid>
         <div style="max-width: 600px; margin: 0 auto;">
+          <v-text-field
+            v-model="apiKey"
+            label="Twelve Data API Key"
+            placeholder="Enter your API key"
+            variant="outlined"
+            density="compact"
+          >
+            <template v-slot:append>
+              <a href="https://twelvedata.com/" target="_blank" rel="noopener noreferrer">
+                <v-icon>mdi-help-circle-outline</v-icon>
+              </a>
+            </template>
+          </v-text-field>
           <InvestmentList />
           <GroupList />
           <SnapshotList />
@@ -35,15 +48,20 @@
 </template>
 
 <script setup>
-import { onMounted } from 'vue'
+import { ref, watch, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { usePortfolioStore } from './store/usePortfolioStore'
 import InvestmentList from './components/InvestmentList.vue'
 import GroupList from './components/GroupList.vue'
 import SnapshotList from './components/SnapshotList.vue'
 
 const { locale } = useI18n()
+const store = usePortfolioStore()
+const apiKey = ref('')
 
 onMounted(() => {
+  apiKey.value = store.apiKey
+
   if (!document.querySelector('script[src*="googletagmanager"]')) {
     const script1 = document.createElement('script')
     script1.async = true
@@ -59,6 +77,10 @@ onMounted(() => {
     `
     document.head.appendChild(script2)
   }
+})
+
+watch(apiKey, (newVal) => {
+  store.setApiKey(newVal)
 })
 
 const companyLink = `<a href="https://github.com/cocabit-us/portfolio_rebalancer" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit;">Cocabit</a>`
